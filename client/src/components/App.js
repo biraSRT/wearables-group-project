@@ -1,7 +1,7 @@
 import GlobalStyles from "./GlobalStyles";
 import { BrowserRouter, Switch, Route } from "react-router-dom";
 import Header from "./Header";
-import HomePage from "./HomePage";
+import HomePage from "./homepage";
 import Item from "./Item";
 import Cart from "./Cart";
 import Checkout from "./Checkout";
