@@ -6,6 +6,7 @@ import Item from "./Item";
 import Cart from "./Cart";
 import Checkout from "./Checkout";
 import Confirmation from "./Confirmation";
+import Error from "./Error";
 
 function App() {
   return (
@@ -30,6 +31,7 @@ function App() {
             <Confirmation />
           </Route>
           <Route path="">404: Oops!</Route>
+          <Error />
         </Switch>
       </BrowserRouter>
     </>
