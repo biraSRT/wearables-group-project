@@ -3,7 +3,14 @@
 const express = require('express');
 const morgan = require('morgan');
 
+const {
+  getItems,
+  getItem,
+} = require("./handlers");
+
 const PORT = 4000;
+
+
 
 express()
   .use(function(req, res, next) {
@@ -25,5 +32,7 @@ express()
 
   // REST endpoints?
   .get('/bacon', (req, res) => res.status(200).json('🥓'))
+  .get("/api/get-items", getItems)
+  .get("/api/get-items/:_id", getItem)
 
   .listen(PORT, () => console.info(`Listening on port ${PORT}`));
