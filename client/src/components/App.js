@@ -7,6 +7,7 @@ import Cart from "./Cart";
 import Checkout from "./Checkout";
 import Confirmation from "./Confirmation";
 import Error from "./Error";
+import About from "./About";
 
 function App() {
   return (
@@ -23,6 +24,9 @@ function App() {
           </Route>
           <Route exact path="/cart">
             <Cart />
+          </Route>
+          <Route exact path="/About">
+            <About />
           </Route>
           <Route path="/checkout">
             <Checkout />
