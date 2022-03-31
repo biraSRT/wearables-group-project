@@ -17,6 +17,6 @@ const Sidebar = () => {
 
 const Wrapper = styled.div``;
 const CatLinks = styled.div``;
-const StyledLink = styled(Link);
+const StyledLink = styled(Link)``;
 
 export default Sidebar;
