@@ -8,6 +8,7 @@ import Checkout from "./Checkout";
 import Confirmation from "./Confirmation";
 import Error from "./Error";
 import About from "./About";
+import Sidebar from "./Sidebar";
 
 function App() {
   return (
@@ -15,6 +16,7 @@ function App() {
       <BrowserRouter>
         <GlobalStyles />
         <Header />
+        <Sidebar />
         <Switch>
           <Route exact path="/">
             <HomePage />
