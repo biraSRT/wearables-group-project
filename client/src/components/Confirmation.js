@@ -32,8 +32,10 @@ const Wrapper = styled.div`
   align-items: center;
   justify-content: space-evenly;
   height: 45vh;
-  border: 1px solid black;
+  border: 1px solid #c9c9c9;
   width: 800px;
+  border-radius: 14px;
+  box-shadow: 2px 2px 4px rgba(0, 0, 0, 0.15);
 
   h1 {
     font-size: 32px;
@@ -55,6 +57,7 @@ const StyledLink = styled(Link)`
   transition: background-color 0.2s ease-out 20ms;
   transition: all 0.2s ease-in-out;
   background-color: lightsalmon;
+  border: none;
 
   &:hover {
     transform: scale(1.1);
