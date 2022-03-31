@@ -1,8 +1,31 @@
+import { useEffect, useState } from "react";
+import { useParams } from "react-router-dom";
 import styled from "styled-components";
 
 const Item = () => {
+  const [item, setItem] = useState();
+
+  const { _id } = useParams();
+
+  //Fetch api for single item to display item info
+
+  useEffect(() => {
+    fetch(`/api/get-items/${_id}`)
+      .then((res) => res.json())
+      .then((json) => {
+        setItem(json.data);
+        console.log(json.data);
+      });
+  }, []);
+
+  console.log(item);
+
+  //Created a map to display item depending on the item you click inside homepage.
+
   return (
     <>
+      {/* {item.map(() => {
+        return ( */}
       <Container>
         <Image>Item Image</Image>
         <Wrapper>
@@ -13,6 +36,8 @@ const Item = () => {
           <CartButton>Add To Cart Button</CartButton>
         </Wrapper>
       </Container>
+      );
+      {/* })} */}
     </>
   );
 };
