@@ -20,11 +20,13 @@ const Header = () => {
   );
 };
 
-const Logo = styled.h1`
+const Logo = styled(Link)`
   font-size: 60px;
   font-family: Georgia, serif;
   font-weight: bold;
   margin: 20px;
+  text-decoration: none;
+  color: black;
 `;
 
 const Wrapper = styled.div`
