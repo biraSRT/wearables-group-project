@@ -36,8 +36,9 @@ function App() {
           <Route path="/confirmation">
             <Confirmation />
           </Route>
-          <Route path="">404: Oops!</Route>
-          <Error />
+          <Route path="/error">
+            <Error />
+          </Route>
         </Switch>
       </BrowserRouter>
     </>
