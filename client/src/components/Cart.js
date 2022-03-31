@@ -16,23 +16,23 @@ const Cart = () => {
 
   // Handle quantity input change by updating cart state
   const handleQuantityChange = (ev, itemId) => {
-    // // User input number
-    // const value = Number(ev.target.value);
-    // // Update cart state
-    // setCart((prevState) => {
-    //   return prevState.map((item) => {
-    //     if (item._id === itemId) {
-    //       return {
-    //         ...item,
-    //         quantity: value,
-    //       };
-    //     } else {
-    //       return {
-    //         ...item,
-    //       };
-    //     }
-    //   });
-    // });
+    // User input number
+    const value = Number(ev.target.value);
+    // Update cart state
+    setCart((prevState) => {
+      return prevState.map((item) => {
+        if (item._id === itemId) {
+          return {
+            ...item,
+            quantity: value,
+          };
+        } else {
+          return {
+            ...item,
+          };
+        }
+      });
+    });
   };
 
   // Handle remove button click by updating cart state
@@ -45,23 +45,28 @@ const Cart = () => {
 
   // Handle checkout button click
   // Verify that requested quantity does not exceed item stock
-  // After verification, navigates to "/checkout" using useHistory
+  // After verification, navigate to "/checkout" using useHistory
   const handleCheckoutClick = (ev) => {
-    cart.forEach((item) => {
-      if (item.quantity > item.numInStock) {
-        window.alert(
-          `${item.name}: Only ${item.numInStock} available in stock.`
-        );
-      }
-    });
-    history.push("/checkout");
+    const check = cart.every((item) => item.quantity <= item.numInStock);
+    check ? history.push("/checkout") : window.alert("Invalid quantity");
   };
+
+  // Calculate subtotal
+  const subtotal = cart.reduce((total, item) => {
+    return Number(total + convertPriceToNum(item.price) * item.quantity);
+  }, 0);
 
   return (
     <Wrapper>
       {cart.length ? (
         <CartContainer>
-          <div>Cart Header</div>
+          <HeaderContainer>
+            <HeaderName>Product</HeaderName>
+            <HeaderStock>In Stock</HeaderStock>
+            <HeaderPrice>Price</HeaderPrice>
+            <HeaderQuantity>Quantity</HeaderQuantity>
+            <HeaderTotal>Total</HeaderTotal>
+          </HeaderContainer>
           {cart.map((item) => (
             <ItemContainer key={item._id}>
               <ItemImg src={item.imageSrc} />
@@ -83,10 +88,10 @@ const Cart = () => {
               </ItemRemove>
             </ItemContainer>
           ))}
-
-          <CheckoutBtn onClick={handleCheckoutClick}>
-            Checkout button
-          </CheckoutBtn>
+          <SubtotalContainer>
+            Subtotal: ${subtotal.toFixed(2)}
+          </SubtotalContainer>
+          <CheckoutBtn onClick={handleCheckoutClick}>Checkout</CheckoutBtn>
         </CartContainer>
       ) : (
         <EmptyCartContainer>Cart is empty</EmptyCartContainer>
@@ -95,20 +100,50 @@ const Cart = () => {
   );
 };
 
-const Wrapper = styled.div``;
+const Wrapper = styled.div`
+  display: flex;
+  justify-content: center;
+`;
 
-const CartContainer = styled.div``;
+const CartContainer = styled.div`
+  display: flex;
+  flex-direction: column;
+  row-gap: 20px;
+  padding: 20px;
+  border: 2px solid black;
+`;
 
 const EmptyCartContainer = styled.div``;
 
+const HeaderContainer = styled.div`
+  display: grid;
+  grid-template-columns: 400px 50px 100px 100px 250px;
+  padding-bottom: 10px;
+  border-bottom: 2px solid black;
+`;
+
+const HeaderName = styled.p``;
+
+const HeaderStock = styled.p``;
+
+const HeaderPrice = styled.p``;
+
+const HeaderQuantity = styled.p``;
+
+const HeaderTotal = styled.p``;
+
 const ItemContainer = styled.div`
-  display: flex;
-  gap: 20px;
-  max-width: 1000px;
+  display: grid;
+  grid-template-columns: 100px 300px 50px 100px 100px 100px 150px;
+  justify-items: start;
+  align-items: center;
 `;
 
 const ItemImg = styled.img`
+  box-sizing: border-box;
+  padding: 10px;
   width: 100px;
+  height: auto;
 `;
 
 const ItemName = styled.p``;
@@ -121,8 +156,30 @@ const ItemQuantity = styled.input``;
 
 const ItemTotal = styled.p``;
 
-const ItemRemove = styled.button``;
+const ItemRemove = styled.button`
+  border: none;
+  border-radius: 2px;
+  background-color: black;
+  color: white;
+  cursor: pointer;
+`;
 
-const CheckoutBtn = styled.button``;
+const SubtotalContainer = styled.div`
+  /* width: 100px; */
+  height: 2rem;
+  align-self: flex-end;
+`;
+
+const CheckoutBtn = styled.button`
+  width: 100px;
+  height: 2rem;
+  align-self: flex-end;
+
+  border: none;
+  border-radius: 5px;
+  background-color: black;
+  color: white;
+  cursor: pointer;
+`;
 
 export default Cart;
