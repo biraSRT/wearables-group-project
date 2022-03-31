@@ -158,7 +158,6 @@ const getFilteredItems = async (req, res) => {
     result
       ? res.status(200).json({
           status: 200,
-          _id,
           ...req.body,
           data: result,
           message: "success",
@@ -170,7 +169,8 @@ const getFilteredItems = async (req, res) => {
           data: "No items match provided category and/or body location.",
         });
   } catch (err) {
-    res.status(500).json({ status: 500, message: "server error" });
+    // res.status(500).json({ status: 500, message: "server error" });
+    res.json('not okay')
   } finally {
     client.close();
   }
