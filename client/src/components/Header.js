@@ -6,7 +6,7 @@ import { Link } from "react-router-dom";
 const Header = () => {
   return (
     <Wrapper>
-      <Logo>
+      <Logo to="/">
         <GiMountedKnight />
         BNTV.
       </Logo>
