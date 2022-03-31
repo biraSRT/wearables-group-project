@@ -53,5 +53,34 @@ const getItem = async (req, res) => {
     }
 };
 
+const updateStock = async (req, res) => {
+    const client = new MongoClient(MONGO_URI, option);
+    await client.connect();
+    const db = client.db();
+    try{
+        const _id= parseInt(req.params._id);
 
-module.exports = { getItems, getItem };
+        const query = { _id };
+
+        const item = await db.collection("items").findOne(query);
+
+
+        item.numInStock = item.numInStock - req.body.quantity;
+
+        let result = await db.collection("items").updateOne(query, { $set: {numInStock: item.numInStock} });
+
+        console.log(result);
+
+        result
+            ? res.status(200).json({ status: 200, _id, ...req.body })
+            : res.status(404).json({ status: 404, _id, data: "invalid key" });
+        
+    }
+    catch(err){
+        res.status(500).json(err);
+    }
+    
+};
+
+
+module.exports = { getItems, getItem, updateStock };
