@@ -1,10 +1,11 @@
 import { useContext, useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
 import styled from "styled-components";
-import { StoreContext } from "./StoreContext";
+import { StoreContext } from "./context/StoreContext";
 
 const Item = () => {
   const { cart, setCart } = useContext(StoreContext);
+  console.log(cart);
 
   const [quantity, setQuantity] = useState(0);
 
@@ -34,29 +35,35 @@ const Item = () => {
     if (quantity < 1 || quantity > selectedItem.numInStock) {
       return window.alert("Invalid Qunatity");
     } else {
-      setCart((prev) => {
-        prev.push({ ...selectedItem, quantity: quantity });
-        return prev;
+      const check = cart.filter((item) => {
+        return item._id === itemId;
       });
-
-      // setCart((prev) => {
-      //   return prev.map((item) => {
-      //     if (item._id === itemId) {
-      //       return {
-      //         ...item,
-      //         quantity: item.quantity + quantity,
-      //       };
-      //     } else {
-      //       return {
-      //         ...selectedItem,
-      //         quantity: quantity,
-      //       };
-      //     }
-      //   });
-      // });
+      if (check.length) {
+        setCart((prev) => {
+          return prev.map((item) => {
+            if (item._id === itemId) {
+              console.log("item already exists");
+              return {
+                ...item,
+                quantity: Number(item.quantity) + Number(quantity),
+              };
+            } else {
+              console.log("just pass along");
+              return {
+                ...item,
+              };
+            }
+          });
+        });
+      } else {
+        setCart((prev)=>{
+          const tempCart = [...prev];
+          tempCart.push({ ...selectedItem, quantity: quantity });
+          return tempCart
+        });
+      }
     }
   };
-  console.log(cart);
   return (
     <>
       {selectedItem && (
