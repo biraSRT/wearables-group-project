@@ -14,30 +14,32 @@ const Item = () => {
       .then((res) => res.json())
       .then((json) => {
         setItem(json.data);
-        console.log(json.data);
       });
   }, []);
 
-  console.log(item);
-
-  //Created a map to display item depending on the item you click inside homepage.
-
   return (
     <>
-      {/* {item.map(() => {
-        return ( */}
-      <Container>
-        <Image>Item Image</Image>
-        <Wrapper>
-          <div>Item Information</div>
-          <div>QTY:</div>
-          <Input type="number"></Input>
+      {item && (
+        <Container>
+          <Image src={item.imageSrc} />
 
-          <CartButton>Add To Cart Button</CartButton>
-        </Wrapper>
-      </Container>
-      );
-      {/* })} */}
+          <Wrapper>
+            <ItemName>{item.name}</ItemName>
+            <Category>{item.category}</Category>
+            <Price>{item.price}</Price>
+
+            <Qunatity>QTY:</Qunatity>
+            <div>In Stock {item.numInStock}</div>
+            <Input
+              name="quantity"
+              type="number"
+              min="1"
+              max={item.numInStock}
+            ></Input>
+            <CartButton>Add To Cart Button</CartButton>
+          </Wrapper>
+        </Container>
+      )}
     </>
   );
 };
@@ -50,38 +52,59 @@ const Container = styled.div`
 `;
 
 const Wrapper = styled.div`
-  border: 2px solid lavender;
-  margin: 50px;
+  border: 2px solid black;
   width: 20%;
   display: flex;
   flex-direction: column;
   align-items: center;
   justify-content: space-between;
-  padding: 7% 0;
+  padding: 3% 0;
 `;
 
-const Image = styled.div`
-  border: 4px solid purple;
-  width: 5%;
-  padding: 150px;
-  margin: 150px;
+const Image = styled.img`
+  padding: 100px;
+  margin: 90px;
   margin-right: 0;
 `;
 
-const Input = styled.input`
-  border: 4px solid lightcyan;
-  width: 20%;
-  height: 20%;
+const ItemName = styled.div`
+  padding: 8% 0;
+  margin-bottom: 30px;
   text-align: center;
 `;
 
+const Price = styled.div`
+  width: 85%;
+  text-align: center;
+  border-bottom: 2px solid lightgray;
+  margin-bottom: 30px;
+  padding-bottom: 20px;
+`;
+
+const Qunatity = styled.div`
+  margin-bottom: 15px;
+`;
+const Category = styled.div`
+  margin-bottom: 50px;
+`;
+
+const Input = styled.input`
+  border: 2px solid lightgray;
+  width: 20%;
+  height: 30%;
+  text-align: center;
+  margin-top: 30px;
+`;
+
 const CartButton = styled.button`
-  border: 2px solid lightblue;
-  border-radius: 5%;
+  border: none;
+  border-radius: 6%;
   width: 35%;
-  height: 45px;
-  background-color: white;
+  height: 80px;
+  background-color: black;
+  color: white;
   cursor: pointer;
+  margin-top: 50px;
 `;
 
 export default Item;
