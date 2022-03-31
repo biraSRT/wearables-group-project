@@ -1,42 +1,85 @@
-import { useEffect, useState } from "react";
+import { useContext, useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
 import styled from "styled-components";
+import { StoreContext } from "./StoreContext";
 
 const Item = () => {
-  const [item, setItem] = useState();
+  const { cart, setCart } = useContext(StoreContext);
+
+  const [quantity, setQuantity] = useState(0);
+
+  const [selectedItem, setSelectedItem] = useState();
 
   const { _id } = useParams();
 
-  //Fetch api for single item to display item info
+  //Fetch api for single item to display item info:
 
   useEffect(() => {
     fetch(`/api/get-items/${_id}`)
       .then((res) => res.json())
       .then((json) => {
-        setItem(json.data);
+        setSelectedItem(json.data);
       });
   }, []);
 
+  //handleChange for Qunatity Change:
+
+  const handleChange = (ev) => {
+    setQuantity(ev.target.value);
+  };
+
+  //handleClick
+
+  const handleClick = (ev, itemId) => {
+    if (quantity < 1 || quantity > selectedItem.numInStock) {
+      return window.alert("Invalid Qunatity");
+    } else {
+      setCart((prev) => {
+        prev.push({ ...selectedItem, quantity: quantity });
+        return prev;
+      });
+
+      // setCart((prev) => {
+      //   return prev.map((item) => {
+      //     if (item._id === itemId) {
+      //       return {
+      //         ...item,
+      //         quantity: item.quantity + quantity,
+      //       };
+      //     } else {
+      //       return {
+      //         ...selectedItem,
+      //         quantity: quantity,
+      //       };
+      //     }
+      //   });
+      // });
+    }
+  };
+  console.log(cart);
   return (
     <>
-      {item && (
+      {selectedItem && (
         <Container>
-          <Image src={item.imageSrc} />
+          <Image src={selectedItem.imageSrc} />
 
           <Wrapper>
-            <ItemName>{item.name}</ItemName>
-            <Category>{item.category}</Category>
-            <Price>{item.price}</Price>
+            <ItemName>{selectedItem.name}</ItemName>
+            <Category>{selectedItem.category}</Category>
+            <Price>{selectedItem.price}</Price>
 
             <Qunatity>QTY:</Qunatity>
-            <div>In Stock {item.numInStock}</div>
+            <div>In Stock {selectedItem.numInStock}</div>
             <Input
               name="quantity"
               type="number"
               min="1"
-              max={item.numInStock}
+              max={selectedItem.numInStock}
+              onChange={handleChange}
             ></Input>
-            <CartButton>Add To Cart Button</CartButton>
+            <CartButton onClick={(ev) => handleClick(ev, selectedItem._id)}>
+              Add To Cart Button
+            </CartButton>
           </Wrapper>
         </Container>
       )}
