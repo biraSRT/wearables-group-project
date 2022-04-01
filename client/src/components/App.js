@@ -8,6 +8,7 @@ import Checkout from "./Checkout";
 import Confirmation from "./Confirmation";
 import Error from "./Error";
 import About from "./About";
+import { HiArrowCircleUp } from "react-icons/hi";
 
 function App() {
   return (
@@ -39,6 +40,18 @@ function App() {
           </Route>
         </Switch>
       </BrowserRouter>
+      <a href="#top">
+        <HiArrowCircleUp
+          style={{
+            color: "black",
+            width: "100px",
+            height: "50px",
+            position: "fixed",
+            bottom: "30px",
+            right: "5px",
+          }}
+        />{" "}
+      </a>
     </>
   );
 }
