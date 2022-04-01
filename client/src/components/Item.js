@@ -56,10 +56,10 @@ const Item = () => {
           });
         });
       } else {
-        setCart((prev)=>{
+        setCart((prev) => {
           const tempCart = [...prev];
           tempCart.push({ ...selectedItem, quantity: quantity });
-          return tempCart
+          return tempCart;
         });
       }
     }
@@ -85,7 +85,7 @@ const Item = () => {
               onChange={handleChange}
             ></Input>
             <CartButton onClick={(ev) => handleClick(ev, selectedItem._id)}>
-              Add To Cart Button
+              Add To Cart
             </CartButton>
           </Wrapper>
         </Container>
@@ -98,7 +98,6 @@ const Container = styled.div`
   display: flex;
   flex-direction: row;
   justify-content: center;
-  margin-top: 10%;
 `;
 
 const Wrapper = styled.div`
