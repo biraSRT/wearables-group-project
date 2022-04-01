@@ -23,7 +23,7 @@ const Item = () => {
       });
   }, []);
 
-  //handleChange for Qunatity Change:
+  //handleChange for Quantity Change:
 
   const handleChange = (ev) => {
     setQuantity(ev.target.value);
@@ -33,7 +33,7 @@ const Item = () => {
 
   const handleClick = (ev, itemId) => {
     if (quantity < 1 || quantity > selectedItem.numInStock) {
-      return window.alert("Invalid Qunatity");
+      return window.alert("Invalid Quantity");
     } else {
       const check = cart.filter((item) => {
         return item._id === itemId;
@@ -75,7 +75,7 @@ const Item = () => {
             <Category>{selectedItem.category}</Category>
             <Price>{selectedItem.price}</Price>
 
-            <Qunatity>QTY:</Qunatity>
+            <Quantity>QTY:</Quantity>
             <div>In Stock {selectedItem.numInStock}</div>
             <Input
               name="quantity"
@@ -131,7 +131,7 @@ const Price = styled.div`
   padding-bottom: 20px;
 `;
 
-const Qunatity = styled.div`
+const Quantity = styled.div`
   margin-bottom: 15px;
 `;
 const Category = styled.div`
