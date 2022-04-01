@@ -107,6 +107,9 @@ const CardContainer = styled(Link)`
   margin-bottom: 10px;
   text-align: center;
   text-decoration: none;
+  color: black;
+  font-family: Georgia, serif;
+  font-size: 13px;
 `;
 const CardImage = styled.img`
   width: 100%;
@@ -142,6 +145,7 @@ const CategoryButton = styled.button`
   border: none;
   width: 100%;
   height: 100px;
+  font-size: 17px;
 `;
 
 export default HomePage;
