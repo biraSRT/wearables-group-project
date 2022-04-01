@@ -6,7 +6,7 @@ const morgan = require("morgan");
 const {
   getItems,
   getItem,
-  updateStock,
+  placeOrder,
   getFilteredItems,
 } = require("./handlers");
 
@@ -34,7 +34,7 @@ express()
   .get("/bacon", (req, res) => res.status(200).json("🥓"))
   .get("/api/get-items", getItems)
   .get("/api/get-items/:_id", getItem)
-  .patch("/api/update-stock/:_id", updateStock)
+  .patch("/api/place-order", placeOrder)
   .get("/api/get-filtered-items", getFilteredItems)
 
   .listen(PORT, () => console.info(`Listening on port ${PORT}`));
