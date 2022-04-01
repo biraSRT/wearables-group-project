@@ -23,7 +23,7 @@ const Item = () => {
       });
   }, []);
 
-  //handleChange for Qunatity Change:
+  //handleChange for Quantity Change:
 
   const handleChange = (ev) => {
     setQuantity(ev.target.value);
@@ -33,7 +33,7 @@ const Item = () => {
 
   const handleClick = (ev, itemId) => {
     if (quantity < 1 || quantity > selectedItem.numInStock) {
-      return window.alert("Invalid Qunatity");
+      return window.alert("Invalid Quantity");
     } else {
       const check = cart.filter((item) => {
         return item._id === itemId;
@@ -56,10 +56,10 @@ const Item = () => {
           });
         });
       } else {
-        setCart((prev)=>{
+        setCart((prev) => {
           const tempCart = [...prev];
           tempCart.push({ ...selectedItem, quantity: quantity });
-          return tempCart
+          return tempCart;
         });
       }
     }
@@ -75,7 +75,7 @@ const Item = () => {
             <Category>{selectedItem.category}</Category>
             <Price>{selectedItem.price}</Price>
 
-            <Qunatity>QTY:</Qunatity>
+            <Quantity>QTY:</Quantity>
             <div>In Stock {selectedItem.numInStock}</div>
             <Input
               name="quantity"
@@ -85,7 +85,7 @@ const Item = () => {
               onChange={handleChange}
             ></Input>
             <CartButton onClick={(ev) => handleClick(ev, selectedItem._id)}>
-              Add To Cart Button
+              Add To Cart
             </CartButton>
           </Wrapper>
         </Container>
@@ -98,7 +98,6 @@ const Container = styled.div`
   display: flex;
   flex-direction: row;
   justify-content: center;
-  margin-top: 10%;
 `;
 
 const Wrapper = styled.div`
@@ -131,7 +130,7 @@ const Price = styled.div`
   padding-bottom: 20px;
 `;
 
-const Qunatity = styled.div`
+const Quantity = styled.div`
   margin-bottom: 15px;
 `;
 const Category = styled.div`
