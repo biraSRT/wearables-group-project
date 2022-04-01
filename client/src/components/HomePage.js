@@ -6,6 +6,7 @@ const HomePage = () => {
   const [currentCategory, setCurrentCategory] = useState("Medical");
   const [selectedBodyLocation, setSelectedBodyLocation] = useState("Wrist");
   const [filteredSearch, setFilteredSearch] = useState();
+  const [visibleItem, setVisibleItem] = useState(10);
 
   //Created a array for categories
   const categories = [
@@ -15,6 +16,10 @@ const HomePage = () => {
     "Fitness",
     "All Categories",
   ];
+
+  const handleClick = () => {
+    setVisibleItem((prevVisibleItem) => prevVisibleItem + 5);
+  };
 
   //Fetch api all filtered items and set it in setIncomingData:
 
@@ -65,7 +70,7 @@ const HomePage = () => {
           </form>{" "}
         </NavBarContainer>
         <ItemContainer>
-          {filteredSearch?.map((category) => {
+          {filteredSearch?.slice(0, visibleItem).map((category) => {
             console.log(filteredSearch);
             return (
               <CardContainer path to={`/item/${category._id}`}>
@@ -81,6 +86,9 @@ const HomePage = () => {
               </CardContainer>
             );
           })}
+          <LoadButton type="button" onClick={handleClick}>
+            Load More
+          </LoadButton>
         </ItemContainer>
       </Wrapper>
     </>
@@ -90,7 +98,13 @@ const HomePage = () => {
 const Wrapper = styled.div`
   display: flex;
 `;
-
+const LoadButton = styled.button`
+  border: none;
+  height: 50px;
+  width: 93%;
+  background-color: ${(props) => (props.selected ? "white" : "black")};
+  color: ${(props) => (props.selected ? "black" : "white")};
+`;
 const SelectBodyLocationMenu = styled.select`
   border: 2px solid red;
   width: 100%;
