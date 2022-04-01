@@ -148,11 +148,11 @@ const getFilteredItems = async (req, res) => {
   const db = client.db();
   try {
     // Find items based on "category" and/or "body_location"
+    const { category, body_location } = req.query;
     const query = {
-      category: req.body.category ? req.body.category : { $exists: true },
-      body_location: req.body.body_location
-        ? req.body.body_location
-        : { $exists: true },
+      category: category == "null" ? { $exists: true } : category,
+      body_location:
+        body_location == "null" ? { $exists: true } : body_location,
     };
     const result = await db.collection("items").find(query).toArray();
     result
@@ -169,8 +169,7 @@ const getFilteredItems = async (req, res) => {
           data: "No items match provided category and/or body location.",
         });
   } catch (err) {
-    // res.status(500).json({ status: 500, message: "server error" });
-    res.json('not okay')
+    res.status(500).json({ status: 500, message: "server error" });
   } finally {
     client.close();
   }
