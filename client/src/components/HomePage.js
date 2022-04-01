@@ -1,6 +1,7 @@
 import { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
 import styled from "styled-components";
+import { BiLoaderCircle } from "react-icons/bi";
 
 const HomePage = () => {
   const [currentCategory, setCurrentCategory] = useState("Medical");
@@ -47,6 +48,7 @@ const HomePage = () => {
                 selected={item === currentCategory}
                 onClick={() => {
                   setCurrentCategory(item);
+                  setVisibleItem(10);
                 }}
               >
                 {item}
@@ -57,6 +59,7 @@ const HomePage = () => {
             <SelectBodyLocationMenu
               onChange={(e) => {
                 setSelectedBodyLocation(e.target.value);
+                setVisibleItem(10);
               }}
               defaultValue="Wrist"
             >
@@ -68,32 +71,45 @@ const HomePage = () => {
               <option value="Torso">Torso</option>
             </SelectBodyLocationMenu>
           </form>{" "}
-        </NavBarContainer>
-        <ItemContainer>
-          {filteredSearch?.slice(0, visibleItem).map((category) => {
-            return (
-              <CardContainer path to={`/item/${category._id}`}>
-                <CardImage src={category.imageSrc} />
-                <CardInfo>
-                  <div>
-                    <CardName>{category.name}</CardName>
-                  </div>
-                  <div>
-                    <CardPrice>{category.price}</CardPrice>
-                  </div>
-                </CardInfo>
-              </CardContainer>
-            );
-          })}
-          {visibleItem < filteredSearch?.length ? (
-            <LoadButton type="button" onClick={handleClick}>
-              Load More
-            </LoadButton>
-          ) : (
-            <div></div>
-          )}
-        </ItemContainer>
+        </NavBarContainer>{" "}
+        {filteredSearch ? (
+          <ItemContainer>
+            {filteredSearch.length > 0 ? (
+              filteredSearch?.slice(0, visibleItem).map((category) => {
+                console.log(filteredSearch);
+                return (
+                  <>
+                    <CardContainer path to={`/item/${category._id}`}>
+                      <CardImage src={category.imageSrc} />
+                      <CardInfo>
+                        <div>
+                          <CardName>{category.name}</CardName>
+                        </div>
+                        <div>
+                          <CardPrice>{category.price}</CardPrice>
+                        </div>
+                      </CardInfo>
+                    </CardContainer>
+                  </>
+                );
+              })
+            ) : (
+              <ItemNotFound>No Item Found</ItemNotFound>
+            )}
+          </ItemContainer>
+        ) : (
+          <Loader></Loader>
+        )}
       </Wrapper>
+      <VisibleItemWrapper>
+        {visibleItem < filteredSearch?.length ? (
+          <LoadButton type="button" onClick={handleClick}>
+            Load More
+          </LoadButton>
+        ) : (
+          <div></div>
+        )}
+      </VisibleItemWrapper>
     </>
   );
 };
@@ -101,15 +117,40 @@ const HomePage = () => {
 const Wrapper = styled.div`
   display: flex;
 `;
+
+const VisibleItemWrapper = styled.div``;
+
+const ItemNotFound = styled.div`
+  margin-top: 5%;
+`;
+
+const Loader = styled.div`
+  border: 10px solid black;
+  border-top: 10px solid white;
+  border-radius: 50%;
+  width: 80px;
+  height: 80px;
+  animation: spin 1s linear infinite;
+  @keyframes spin {
+    0% {
+      transform: rotate(0deg);
+    }
+    100% {
+      transform: rotate(360deg);
+    }
+  }
+  margin-left: 40%;
+  margin-top: 10%;
+`;
+
 const LoadButton = styled.button`
-  border: none;
   height: 50px;
-  width: 30%;
+  width: 20%;
+  margin-left: 40%;
   background-color: ${(props) => (props.selected ? "white" : "black")};
   color: ${(props) => (props.selected ? "black" : "white")};
 `;
 const SelectBodyLocationMenu = styled.select`
-  border: 2px solid red;
   width: 100%;
   text-align: center;
   height: 50px;
@@ -118,7 +159,7 @@ const SelectBodyLocationMenu = styled.select`
   color: black;
 `;
 const CardContainer = styled(Link)`
-  border: 2px solid lightgray;
+  border: 2px solid black;
   width: 250px;
   height: 300px;
   margin-bottom: 10px;
