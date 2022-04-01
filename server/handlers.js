@@ -54,85 +54,104 @@ const getItem = async (req, res) => {
 // Update single item document "numInStock" based on provided:
 // 1) item _id as URL params
 // 2) quantity in request body
-const updateStock = async (req, res) => {
+const placeOrder = async (req, res) => {
   // Connect to MongoDB database
   const client = new MongoClient(MONGO_URI, option);
   await client.connect();
   const db = client.db();
-  try {
-    const {
-      quantity,
-      name,
+
+  // Request body
+  const {
+    name,
+    email,
+    address,
+    city,
+    province,
+    postCode,
+    country,
+    creditCard,
+    expiration,
+    cart,
+  } = req.body;
+
+  // Error if customer data form is incomplete
+  if (
+    !name ||
+    !email ||
+    !address ||
+    !city ||
+    !province ||
+    !postCode ||
+    !country ||
+    !creditCard ||
+    !expiration
+  ) {
+    return res.status(400).json({
+      status: 400,
+      data: "Missing order data.",
+      message: "error",
+    });
+  }
+
+  // Email validation
+  if (!email.includes("@")) {
+    return res.status(400).json({
+      status: 400,
       email,
-      address,
-      city,
-      province,
-      postCode,
-      country,
-      creditCard,
-      expiration,
-    } = req.body;
+      data: "Invalid email",
+      message: "error",
+    });
+  }
 
-    // Error if customer data form is incomplete
-    if (
-      !name ||
-      !email ||
-      !address ||
-      !city ||
-      !province ||
-      !postCode ||
-      !country ||
-      !creditCard ||
-      !expiration
-    ) {
-      return res.status(404).json({
-        status: 404,
-        _id,
-        data: "Missing order data.",
-        message: "error",
-      });
-    }
-
-    // Find item based on _id
-    const _id = parseInt(req.params._id);
-    const query = { _id };
-    const item = await db.collection("items").findOne(query);
-    // Error if item _id not found
-    if (!item) {
-      return res.status(404).json({
-        status: 404,
-        _id,
-        data: "Item _id not found.",
-        message: "error",
-      });
-    }
-
-    // Update "numInStock" based on request body
-    const result = await db
-      .collection("items")
-      .updateOne(query, { $set: { numInStock: item.numInStock } });
-    // Error if  order  quantity exceeds item stock
-    if (quantity > item.numInStock) {
-      return res.status(400).json({
-        status: 400,
-        _id,
-        ...req.body,
-        data: "Order quantity exceeds item stock.",
-        message: "error",
-      });
-    }
-
-    // Update item stock based on provided quantity in body
-    item.numInStock = item.numInStock - req.body.quantity;
-    result
-      ? res.status(200).json({ status: 200, _id, ...req.body, data: result })
-      : res.status(400).json({
+  // Credit card and expiration validation
+  if (!/^\d+$/.test(creditCard + expiration)) {
+    return res.status(400).json({
+      status: 400,
+      email,
+      data: "Invalid credit card information",
+      message: "error",
+    });
+  }
+  try {
+    // FIRST, check that each item order quantity does not exceed numInStock
+    for (let cartItem of cart) {
+      const query = { _id: cartItem._id };
+      const item = await db.collection("items").findOne(query);
+      if (item.numInStock < cartItem.quantity || cartItem.quantity <= 0) {
+        return res.status(400).json({
           status: 400,
-          _id,
-          ...req.body,
-          data: "Could not update item stock.",
           message: "error",
+          data: "Invalid order quantity",
+          item: cartItem,
         });
+      }
+    }
+
+    // SECOND, update numInStock
+    for (let cartItem of cart) {
+      const query = { _id: cartItem._id };
+      const item = await db.collection("items").findOne(query);
+      const newStock = item.numInStock - cartItem.quantity;
+      const newValues = { $set: { numInStock: newStock } };
+      const updateMsg = await db
+        .collection("items")
+        .updateOne(query, newValues);
+      if (!updateMsg.modifiedCount) {
+        res.status(400).json({
+          status: 400,
+          message: "error",
+          data: "Database stock not updated.",
+          item: cartItem,
+        });
+      }
+    }
+
+    // IF no errors, send success response
+    res.status(200).json({
+      status: 200,
+      message: "success",
+      data: "Order placed, item stock updated.",
+    });
   } catch (err) {
     res.status(500).json({ status: 500, message: "server error" });
   } finally {
@@ -175,4 +194,4 @@ const getFilteredItems = async (req, res) => {
   }
 };
 
-module.exports = { getItems, getItem, updateStock, getFilteredItems };
+module.exports = { getItems, getItem, placeOrder, getFilteredItems };
