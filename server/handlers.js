@@ -150,9 +150,9 @@ const getFilteredItems = async (req, res) => {
     // Find items based on "category" and/or "body_location"
     const { category, body_location } = req.query;
     const query = {
-      category: category == "null" ? { $exists: true } : category,
+      category: category == "All Categories" ? { $exists: true } : category,
       body_location:
-        body_location == "null" ? { $exists: true } : body_location,
+        body_location == "Wear:" ? { $exists: true } : body_location,
     };
     const result = await db.collection("items").find(query).toArray();
     result
