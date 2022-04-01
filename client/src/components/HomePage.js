@@ -71,7 +71,6 @@ const HomePage = () => {
         </NavBarContainer>
         <ItemContainer>
           {filteredSearch?.slice(0, visibleItem).map((category) => {
-            console.log(filteredSearch);
             return (
               <CardContainer path to={`/item/${category._id}`}>
                 <CardImage src={category.imageSrc} />
@@ -86,9 +85,13 @@ const HomePage = () => {
               </CardContainer>
             );
           })}
-          <LoadButton type="button" onClick={handleClick}>
-            Load More
-          </LoadButton>
+          {visibleItem < filteredSearch?.length ? (
+            <LoadButton type="button" onClick={handleClick}>
+              Load More
+            </LoadButton>
+          ) : (
+            <div></div>
+          )}
         </ItemContainer>
       </Wrapper>
     </>
@@ -101,7 +104,7 @@ const Wrapper = styled.div`
 const LoadButton = styled.button`
   border: none;
   height: 50px;
-  width: 93%;
+  width: 30%;
   background-color: ${(props) => (props.selected ? "white" : "black")};
   color: ${(props) => (props.selected ? "black" : "white")};
 `;
