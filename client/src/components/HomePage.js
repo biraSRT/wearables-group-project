@@ -168,6 +168,9 @@ const CardContainer = styled(Link)`
   color: black;
   font-family: Georgia, serif;
   font-size: 13px;
+  &:hover {
+    transform: scale(1.05);
+  }
 `;
 const CardImage = styled.img`
   width: 100%;
@@ -204,6 +207,10 @@ const CategoryButton = styled.button`
   width: 100%;
   height: 100px;
   font-size: 17px;
+  &:hover {
+    background-color:gray;
+    color:white;
+  }
 `;
 
 export default HomePage;
