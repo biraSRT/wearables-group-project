@@ -47,6 +47,7 @@ const Checkout = () => {
       const data = await res.json()
       if(data.message === 'success'){
         setCart([]);
+        setPurchased(true);
         history.push('/confirmation')
       } else {
         window.alert(data.data)
