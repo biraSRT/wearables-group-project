@@ -149,6 +149,18 @@ const LoadButton = styled.button`
   margin-left: 40%;
   background-color: ${(props) => (props.selected ? "white" : "black")};
   color: ${(props) => (props.selected ? "black" : "white")};
+  font-size: 1rem;
+  color: gray;
+  border: 2px solid gray;
+
+  background: linear-gradient(to right, black 50%, white 50%);
+  background-size: 200% 100%;
+  background-position: right bottom;
+  transition: all .5s ease-out;
+
+  &:hover {
+    background-position: left bottom;
+  }
 `;
 const SelectBodyLocationMenu = styled.select`
   width: 100%;
