@@ -2,6 +2,7 @@ import styled from "styled-components";
 import { GiMountedKnight } from "react-icons/gi";
 import { FaShoppingCart } from "react-icons/fa";
 import { Link } from "react-router-dom";
+import watches from "../watches.jpg";
 
 const Header = () => {
   return (
@@ -26,14 +27,18 @@ const Logo = styled(Link)`
   font-weight: bold;
   margin: 20px;
   text-decoration: none;
-  color: black;
+  color: white;
 `;
 
 const Wrapper = styled.div`
   display: flex;
   align-items: baseline;
   justify-content: space-between;
+  background-image: url(${watches});
+  padding: 20px;
+  margin: 10px;
 `;
+
 const Links = styled.div`
   display: flex;
   align-items: baseline;
@@ -45,7 +50,7 @@ const StyledLink = styled(Link)`
   margin: 20px;
   text-decoration: none;
   font-size: 25px;
-  color: black;
+  color: white;
   font-family: Georgia, serif;
   font-weight: bold;
   margin-right: 50px; ;
