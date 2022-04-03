@@ -1,11 +1,11 @@
 import { useContext, useState } from "react";
-import { useHistory } from 'react-router-dom';
+import { useHistory } from "react-router-dom";
 import styled from "styled-components";
 
 import { StoreContext } from "./context/StoreContext";
 
 const Checkout = () => {
-  const history = useHistory()
+  const history = useHistory();
 
   const { cart, setCart, setPurchased } = useContext(StoreContext);
 
@@ -44,16 +44,16 @@ const Checkout = () => {
           cart: cart,
         }),
       });
-      const data = await res.json()
-      if(data.message === 'success'){
+      const data = await res.json();
+      if (data.message === "success") {
         setCart([]);
         setPurchased(true);
-        history.push('/confirmation')
+        history.push("/confirmation");
       } else {
-        window.alert(data.data)
+        window.alert(data.data);
       }
     };
-    placeOrder()
+    placeOrder();
   };
 
   const handleChange = (ev) => {
@@ -88,6 +88,7 @@ const Checkout = () => {
         <InputContainer>
           <StyledLabel htmlFor="name">Name: </StyledLabel>
           <StyledInput
+            required={true}
             type="text"
             id="name"
             value={orderForm.name}
@@ -97,7 +98,8 @@ const Checkout = () => {
         <InputContainer>
           <StyledLabel htmlFor="email">Email: </StyledLabel>
           <StyledInput
-            type="text"
+            required={true}
+            type="email"
             id="email"
             value={orderForm.email}
             onChange={handleChange}
@@ -106,6 +108,7 @@ const Checkout = () => {
         <InputContainer>
           <StyledLabel htmlFor="address">Address: </StyledLabel>
           <StyledInput
+            required={true}
             type="text"
             id="address"
             value={orderForm.address}
@@ -115,6 +118,7 @@ const Checkout = () => {
         <InputContainer>
           <StyledLabel htmlFor="city">City: </StyledLabel>
           <StyledInput
+            required={true}
             type="text"
             id="city"
             value={orderForm.city}
@@ -124,6 +128,7 @@ const Checkout = () => {
         <InputContainer>
           <StyledLabel htmlFor="province">Province: </StyledLabel>
           <StyledInput
+            required={true}
             type="text"
             id="province"
             value={orderForm.province}
@@ -133,6 +138,7 @@ const Checkout = () => {
         <InputContainer>
           <StyledLabel htmlFor="postCode">Postal Code: </StyledLabel>
           <StyledInput
+            required={true}
             type="text"
             id="postCode"
             value={orderForm.postCode}
@@ -142,6 +148,7 @@ const Checkout = () => {
         <InputContainer>
           <StyledLabel htmlFor="country">Country: </StyledLabel>
           <StyledInput
+            required={true}
             type="text"
             id="country"
             value={orderForm.country}
@@ -151,7 +158,8 @@ const Checkout = () => {
         <InputContainer>
           <StyledLabel htmlFor="creditCard">Credit Card: </StyledLabel>
           <StyledInput
-            type="text"
+            required={true}
+            type="number"
             id="creditCard"
             value={orderForm.creditCard}
             onChange={handleChange}
@@ -160,7 +168,8 @@ const Checkout = () => {
         <InputContainer>
           <StyledLabel htmlFor="expiration">Expiration: </StyledLabel>
           <StyledInput
-            type="text"
+            required={true}
+            type="number"
             id="expiration"
             value={orderForm.expiration}
             onChange={handleChange}
