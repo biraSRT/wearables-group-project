@@ -76,7 +76,7 @@ const Cart = () => {
               <ItemQuantity
                 type="number"
                 value={item.quantity}
-                min={0}
+                min={1}
                 max={item.numInStock}
                 onChange={(ev) => handleQuantityChange(ev, item._id)}
               />
