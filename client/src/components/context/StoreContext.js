@@ -5,9 +5,10 @@ export const StoreContext = createContext(null);
 
 const StoreProvider = ({ children }) => {
   const [cart, setCart] = usePersistedState([]);
+  const [purchased, setPurchased] = useState(false);
 
   return (
-    <StoreContext.Provider value={{ cart, setCart }}>
+    <StoreContext.Provider value={{ cart, setCart, purchased, setPurchased }}>
       {children}
     </StoreContext.Provider>
   );

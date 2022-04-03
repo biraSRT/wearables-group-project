@@ -1,10 +1,13 @@
 import { useContext, useState } from "react";
+import { useHistory } from 'react-router-dom';
 import styled from "styled-components";
 
 import { StoreContext } from "./context/StoreContext";
 
 const Checkout = () => {
-  const { cart } = useContext(StoreContext);
+  const history = useHistory()
+
+  const { cart, setCart, setPurchased } = useContext(StoreContext);
 
   const [orderForm, setOrderForm] = useState({
     name: "",
@@ -32,6 +35,24 @@ const Checkout = () => {
   // Handle form submit
   const handleSubmit = (ev) => {
     ev.preventDefault();
+    const placeOrder = async () => {
+      const res = await fetch("/api/place-order", {
+        method: "PATCH",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+          ...orderForm,
+          cart: cart,
+        }),
+      });
+      const data = await res.json()
+      if(data.message === 'success'){
+        setCart([]);
+        history.push('/confirmation')
+      } else {
+        window.alert(data.data)
+      }
+    };
+    placeOrder()
   };
 
   const handleChange = (ev) => {
@@ -77,7 +98,7 @@ const Checkout = () => {
           <StyledInput
             type="text"
             id="email"
-            value={orderForm.name}
+            value={orderForm.email}
             onChange={handleChange}
           />
         </InputContainer>

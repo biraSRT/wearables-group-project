@@ -35,7 +35,7 @@ function App() {
           <Route path="/confirmation">
             <Confirmation />
           </Route>
-          <Route path="/error">
+          <Route path="">
             <Error />
           </Route>
         </Switch>
