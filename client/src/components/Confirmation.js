@@ -1,8 +1,19 @@
+import { useContext, useState } from "react";
 import styled from "styled-components";
-import { Link } from "react-router-dom";
+import { Link, useHistory } from "react-router-dom";
 import { FcOk } from "react-icons/fc";
 
+import { StoreContext } from "./context/StoreContext";
+
 const Confirmation = () => {
+  const history = useHistory();
+
+  const { purchased } = useContext(StoreContext);
+
+  if (!purchased) {
+    history.push("/");
+  }
+
   return (
     <Main>
       <Wrapper>
