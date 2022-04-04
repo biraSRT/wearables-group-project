@@ -15,6 +15,9 @@ const HomePage = () => {
     "Entertainment",
     "Medical",
     "Fitness",
+    "Gaming",
+    "Industrial",
+    "Pets and Animals",
     "All Categories",
   ];
 
