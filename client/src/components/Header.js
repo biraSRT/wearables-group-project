@@ -1,10 +1,15 @@
+import { useContext } from "react";
 import styled from "styled-components";
 import { GiMountedKnight } from "react-icons/gi";
 import { FaShoppingCart } from "react-icons/fa";
 import { Link } from "react-router-dom";
 import watches from "../watches.jpg";
 
+import { StoreContext } from "./context/StoreContext";
+
 const Header = () => {
+  const { cart } = useContext(StoreContext);
+
   return (
     <Wrapper>
       <Logo to="/">
@@ -15,6 +20,7 @@ const Header = () => {
         <StyledLink to="/about">About</StyledLink>
         <StyledLink to="/cart">
           <FaShoppingCart /> Cart
+          {cart.length ? <CartCount>{cart.length}</CartCount> : <></>}
         </StyledLink>
       </Links>
     </Wrapper>
@@ -53,7 +59,17 @@ const StyledLink = styled(Link)`
   color: white;
   font-family: Georgia, serif;
   font-weight: bold;
-  margin-right: 50px; ;
+  margin-right: 50px;
+  position: relative;
+`;
+
+const CartCount = styled.div`
+  background-color: black;
+  position: absolute;
+  left: -20px;
+  top: 10px;
+  border-radius: 50%;
+  padding: 5px;
 `;
 
 export default Header;
