@@ -5,7 +5,6 @@ import { StoreContext } from "./context/StoreContext";
 
 const Item = () => {
   const { cart, setCart } = useContext(StoreContext);
-  console.log(cart);
 
   const [quantity, setQuantity] = useState(0);
 
@@ -42,13 +41,11 @@ const Item = () => {
         setCart((prev) => {
           return prev.map((item) => {
             if (item._id === itemId) {
-              console.log("item already exists");
               return {
                 ...item,
                 quantity: Number(item.quantity) + Number(quantity),
               };
             } else {
-              console.log("just pass along");
               return {
                 ...item,
               };

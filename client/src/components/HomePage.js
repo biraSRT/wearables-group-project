@@ -76,7 +76,6 @@ const HomePage = () => {
           <ItemContainer>
             {filteredSearch.length > 0 ? (
               filteredSearch?.slice(0, visibleItem).map((category) => {
-                console.log(filteredSearch);
                 return (
                   <>
                     <CardContainer path to={`/item/${category._id}`}>
