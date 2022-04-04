@@ -47,7 +47,7 @@ const Cart = () => {
   // Verify that requested quantity does not exceed item stock
   // After verification, navigate to "/checkout" using useHistory
   const handleCheckoutClick = (ev) => {
-    const check = cart.every((item) => item.quantity <= item.numInStock);
+    const check = cart.every((item) => item.quantity <= item.numInStock && item.quantity > 0);
     check ? history.push("/checkout") : window.alert("Invalid quantity");
   };
 
