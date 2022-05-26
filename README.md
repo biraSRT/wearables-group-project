@@ -1,3 +1,3 @@
 # Wearables E-Commerce Project
 
-![Imgur](https://imgur.com/sqRY5QS.png)
+![Imgur](https://imgur.com/tuQAFl4.png)
